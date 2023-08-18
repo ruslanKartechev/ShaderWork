@@ -13,7 +13,8 @@ Shader "Rus/Vertical Dynamic Fog URP"
         _NoiseWaveSpeed("Noise Wave Speed", float) = 50
         _WaveAmplitudeMin("Wave Amplitude Min", Range(0,1)) = 0
         _WaveAmplitudeMax("Wave Amplitude Max", Range(0,1)) = 1
-        _MainColorDarkenMax("Main Color Darken Max", Range(0,1)) = 0.5
+        _ColorNoiseBlendFactor("Color Noise Blend Factor", Range(0,1)) = 0.5
+        _AlphaSubMax("Alpha sub max value", Range(0,1)) = 0.5
         
         [Header(Frequencies)]
         _omega1("Frequency 1", Float) = 10
@@ -67,7 +68,8 @@ Shader "Rus/Vertical Dynamic Fog URP"
            float _FogDepth;
            float _Power;
            float _ScrollSpeed;
-           float _MainColorDarkenMax;
+           float _ColorNoiseBlendFactor;
+           float _AlphaSubMax;
             
            sampler2D _NoiseTexture;
            float4 _NoiseTexture_ST;
@@ -115,16 +117,15 @@ Shader "Rus/Vertical Dynamic Fog URP"
                 float weights_sum = _WaveWeight1 + _WaveWeight2 + _WaveWeight3;
                 wave_value = Remap(wave_value, -(weights_sum), weights_sum, _WaveAmplitudeMin, _WaveAmplitudeMax);
                 float noise_color_factor = noise_color * wave_value;
-                float main_color_blend_t = saturate(Remap(noise_color_factor, 0, _WaveAmplitudeMax, 0, _MainColorDarkenMax));
+                float main_color_blend_t = saturate(Remap(noise_color_factor, 0, _WaveAmplitudeMax, 0, _ColorNoiseBlendFactor));
                 
                 float depth = LinearEyeDepth(tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(i.screenPos)));
                 // The difference  (depth - i.screenPos.w) is 1 where there is nothing, 0 where there is an opaque object
                 float depth_diff = saturate(_FogDepth * (depth - i.screenPos.w));
                 float alpha_lerp_t = pow(depth_diff, _Power);
                 float lerp_noise_color = lerp(noise_color_factor, 0, depth - i.screenPos.w);
-                float end_color_a = saturate(lerp(0, _Color.a, alpha_lerp_t) - lerp_noise_color);
-                
-                end_color_a = saturate(end_color_a);
+                float end_color_a = saturate(lerp(0, _Color.a, alpha_lerp_t)); // lerp_noise_color * _AlphaSubMax
+                end_color_a = saturate(end_color_a + lerp_noise_color);
                 float4 color_blended = lerp(_ColorUp, _Color, alpha_lerp_t);
                 float3 blend_main_color = lerp(color_blended.rgb, _ColorNoiseBlend, main_color_blend_t);
                 float4 final_color = float4(blend_main_color, end_color_a);

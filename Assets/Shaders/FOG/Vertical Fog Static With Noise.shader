@@ -10,11 +10,6 @@ Shader "Rus/Vertical Static Fog Noise URP"
         _Power("Diff factor power",  Range(0,2)) = 0.38
         _NoiseTexture("Noise Texture", 2D) = "" {}
         _ScrollSpeed("Scroll speed", float) = 0
-        _NoiseWaveSpeed("Noise Wave Speed", float) = 50
-        _WaveAmplitudeMin("Wave Amplitude Min", Range(0,1)) = 0
-        _WaveAmplitudeMax("Wave Amplitude Max", Range(0,1)) = 1
-        _MainColorDarkenMax("Main Color Darken Max", Range(0,1)) = 0.5
-        
     }
     SubShader
     {
@@ -55,13 +50,9 @@ Shader "Rus/Vertical Static Fog Noise URP"
            float _FogDepth;
            float _Power;
            float _ScrollSpeed;
-           float _MainColorDarkenMax;
             
            sampler2D _NoiseTexture;
            float4 _NoiseTexture_ST;
-           float _NoiseWaveSpeed;
-           float _WaveAmplitudeMin;
-           float _WaveAmplitudeMax;
            
            v2f vert(appdata v)
            {
@@ -89,9 +80,8 @@ Shader "Rus/Vertical Static Fog Noise URP"
                 float depth_diff = saturate(_FogDepth * (depth - i.screenPos.w));
                 float alpha_lerp_t = pow(depth_diff, _Power);
                 float lerp_noise_color = lerp(noise_color, 0, depth - i.screenPos.w);
-                float end_color_a = saturate(lerp(0, _Color.a, alpha_lerp_t) - lerp_noise_color);
+                float end_color_a = saturate(lerp(0, _Color.a - noise_color, alpha_lerp_t) - lerp_noise_color);
                 
-                end_color_a = saturate(end_color_a);
                 float4 color_blended = lerp(_ColorUp, _Color, alpha_lerp_t);
                 float3 blend_color = lerp(color_blended.rgb, _ColorNoiseBlend, noise_color);
                 float4 final_color = float4(blend_color, end_color_a);
