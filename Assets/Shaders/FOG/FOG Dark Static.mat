@@ -89,7 +89,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DepthDifferenceFactor: 0.15
+    - _DepthDifferenceFactor: 0.1
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -102,7 +102,7 @@ Material:
     - _MinAlpha: 0.36
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _Power: 0.38
+    - _Power: 0.68
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -119,6 +119,7 @@ Material:
     - _ColorUp: {r: 0.3333335, g: 0, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FogColor: {r: 0.7457902, g: 0.504717, b: 1, a: 1}
+    - _MainColor: {r: 0.2783019, g: 0.6745281, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &7640999667396075275

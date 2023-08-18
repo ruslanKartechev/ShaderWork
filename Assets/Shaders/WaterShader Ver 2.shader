@@ -175,9 +175,9 @@ Shader "Rus/Water ver 2" {
             return output;
          }
  
-         float4 frag(v2f input) : SV_Target
+         float4 frag(v2f i) : SV_Target
          {
-            float3 worldPos = input.worldPos;
+            float3 worldPos = i.worldPos;
             // wave1
             float waveArg1 = -(_Dir1.x * worldPos.x + _Dir1.y * worldPos.z) * FREQ(_omega1) + _Time * _phase;
             float wave_1_dir = _Amplitude1 * exp(sin(waveArg1)) * cos(waveArg1) * FREQ(_omega1);
@@ -260,11 +260,11 @@ Shader "Rus/Water ver 2" {
             + wave_8_dz + wave_9_dz + wave_10_dz + wave_11_dz + wave_12_dz + wave_13_dz + wave_14_dz + wave_15_dz;
             
             float3 normalDirection = normalize(float3(total_dx, 1, total_dz));
-            float3 viewDirection = normalize(_WorldSpaceCameraPos - input.worldPos.xyz);
-            float3 vert2LightSource = _WorldSpaceLightPos0.xyz - input.worldPos.xyz;
+            float3 viewDirection = normalize(_WorldSpaceCameraPos - i.worldPos.xyz);
+            float3 vert2LightSource = _WorldSpaceLightPos0.xyz - i.worldPos.xyz;
             // .w is 1 for Spot Light, 0 for GlobalLight
             float attenuation = lerp(1.0, 1.0 / length(vert2LightSource), _WorldSpaceLightPos0.w); //Optimization for spot lights. This isn't needed if you're just getting started.
-            float3 lightDirection = _WorldSpaceLightPos0.xyz - input.worldPos.xyz * _WorldSpaceLightPos0.w;
+            float3 lightDirection = _WorldSpaceLightPos0.xyz - i.worldPos.xyz * _WorldSpaceLightPos0.w;
             
             float3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb * _DiffuseColor.rgb; //Ambient component
             float3 diffuse = attenuation * _LightColor0.rgb * _DiffuseColor.rgb * max(0.0, dot(normalDirection, lightDirection)); //Diffuse component

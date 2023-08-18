@@ -140,7 +140,7 @@ Shader "Rus/Water ver 1" {
             return output;
          }
  
-         float4 frag(v2f input) : SV_Target
+         float4 frag(v2f i) : SV_Target
          {
             _Dir1 = normalize(_Dir1);
             _Dir2 = normalize(_Dir2);
@@ -150,39 +150,39 @@ Shader "Rus/Water ver 1" {
             _Dir5 = normalize(_Dir5);
             _Dir6 = normalize(_Dir6);
             // wave1
-            float wave_1_cos = cos((-_Dir1.x * input.worldPos.x + -_Dir1.y * input.worldPos.z) * FREQ(_omega1) + _Time * _phase);
+            float wave_1_cos = cos((-_Dir1.x * i.worldPos.x + -_Dir1.y * i.worldPos.z) * FREQ(_omega1) + _Time * _phase);
             float wave_1_dx = -_Amplitude1 * FREQ(_omega1) * _Dir1.x * wave_1_cos;
             float wave_1_dz = -_Amplitude1 * FREQ(_omega1) * _Dir1.y * wave_1_cos;
             // wave2
-            float wave_2_cos = cos((-_Dir2.x * input.worldPos.x + -_Dir2.y * input.worldPos.z) * FREQ(_omega2) + _Time * _phase);
+            float wave_2_cos = cos((-_Dir2.x * i.worldPos.x + -_Dir2.y * i.worldPos.z) * FREQ(_omega2) + _Time * _phase);
             float wave_2_dx = -_Amplitude2 * FREQ(_omega2) * _Dir2.x * wave_2_cos;
             float wave_2_dz = -_Amplitude2 * FREQ(_omega2) * _Dir2.y * wave_2_cos;
             // wave3
-            float wave_3_cos = cos((-_Dir3.x * input.worldPos.x + -_Dir3.y * input.worldPos.z) * FREQ(_omega3) + _Time * _phase);
+            float wave_3_cos = cos((-_Dir3.x * i.worldPos.x + -_Dir3.y * i.worldPos.z) * FREQ(_omega3) + _Time * _phase);
             float wave_3_dx = -_Amplitude3 * FREQ(_omega3) * _Dir3.x * wave_3_cos;
             float wave_3_dz = -_Amplitude3 * FREQ(_omega3) * _Dir3.y * wave_3_cos;
             // wave4
-            float wave_4_cos = cos((-_Dir4.x * input.worldPos.x + -_Dir4.y * input.worldPos.z) * FREQ(_omega4) + _Time * _phase);
+            float wave_4_cos = cos((-_Dir4.x * i.worldPos.x + -_Dir4.y * i.worldPos.z) * FREQ(_omega4) + _Time * _phase);
             float wave_4_dx = -_Amplitude4 * FREQ(_omega4) * _Dir4.x * wave_4_cos;
             float wave_4_dz = -_Amplitude4 * FREQ(_omega4) * _Dir4.y * wave_4_cos;
             // wave5
-            float wave_5_cos = cos((-_Dir5.x * input.worldPos.x + -_Dir5.y * input.worldPos.z) * FREQ(_omega5) + _Time * _phase);
+            float wave_5_cos = cos((-_Dir5.x * i.worldPos.x + -_Dir5.y * i.worldPos.z) * FREQ(_omega5) + _Time * _phase);
             float wave_5_dx = -_Amplitude5 * FREQ(_omega5) * _Dir5.x * wave_5_cos;
             float wave_5_dz = -_Amplitude5 * FREQ(_omega5) * _Dir5.y * wave_5_cos;
             // wave6
-            float wave_6_cos = cos((-_Dir6.x * input.worldPos.x + -_Dir6.y * input.worldPos.z) * FREQ(_omega6) + _Time * _phase);
+            float wave_6_cos = cos((-_Dir6.x * i.worldPos.x + -_Dir6.y * i.worldPos.z) * FREQ(_omega6) + _Time * _phase);
             float wave_6_dx = -_Amplitude6 * FREQ(_omega6) * _Dir6.x * wave_6_cos;
             float wave_6_dz = -_Amplitude6 * FREQ(_omega6) * _Dir6.y * wave_6_cos;
             // wave6
-            float wave_7_cos = cos((-_Dir7.x * input.worldPos.x + -_Dir7.y * input.worldPos.z) * FREQ(_omega7) + _Time * _phase);
+            float wave_7_cos = cos((-_Dir7.x * i.worldPos.x + -_Dir7.y * i.worldPos.z) * FREQ(_omega7) + _Time * _phase);
             float wave_7_dx = -_Amplitude7 * FREQ(_omega7) * _Dir7.x * wave_7_cos;
             float wave_7_dz = -_Amplitude7 * FREQ(_omega7) * _Dir7.y * wave_7_cos;
             // wave6
-            float wave_8_cos = cos((-_Dir8.x * input.worldPos.x + -_Dir8.y * input.worldPos.z) * FREQ(_omega8) + _Time * _phase);
+            float wave_8_cos = cos((-_Dir8.x * i.worldPos.x + -_Dir8.y * i.worldPos.z) * FREQ(_omega8) + _Time * _phase);
             float wave_8_dx = -_Amplitude8 * FREQ(_omega8) * _Dir8.x * wave_8_cos;
             float wave_8_dz = -_Amplitude8 * FREQ(_omega8) * _Dir8.y * wave_8_cos;
             // wave6
-            float wave_9_cos = cos((-_Dir9.x * input.worldPos.x + -_Dir9.y * input.worldPos.z) * FREQ(_omega9) + _Time * _phase);
+            float wave_9_cos = cos((-_Dir9.x * i.worldPos.x + -_Dir9.y * i.worldPos.z) * FREQ(_omega9) + _Time * _phase);
             float wave_9_dx = -_Amplitude9 * FREQ(_omega9) * _Dir9.x * wave_9_cos;
             float wave_9_dz = -_Amplitude9 * FREQ(_omega9) * _Dir9.y * wave_9_cos;
             
@@ -190,17 +190,17 @@ Shader "Rus/Water ver 1" {
             float total_dz = wave_1_dz + wave_2_dz + wave_3_dz + wave_4_dz + wave_5_dz + wave_6_dz + wave_7_dz + wave_8_dz + wave_9_dz;
             float3 normalDirection = normalize(float3(total_dx, 1, total_dz));
 
-            float3 viewDirection = normalize(_WorldSpaceCameraPos - input.worldPos.xyz);
-            float3 vert2LightSource = _WorldSpaceLightPos0.xyz - input.worldPos.xyz;
+            float3 viewDirection = normalize(_WorldSpaceCameraPos - i.worldPos.xyz);
+            float3 vert2LightSource = _WorldSpaceLightPos0.xyz - i.worldPos.xyz;
             // .w is 1 for Spot Light, 0 for GlobalLight
             float attenuation = lerp(1.0, 1.0 / length(vert2LightSource), _WorldSpaceLightPos0.w); //Optimization for spot lights. This isn't needed if you're just getting started.
-            float3 lightDirection = _WorldSpaceLightPos0.xyz - input.worldPos.xyz * _WorldSpaceLightPos0.w;
+            float3 lightDirection = _WorldSpaceLightPos0.xyz - i.worldPos.xyz * _WorldSpaceLightPos0.w;
             
             float3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb * _DiffuseColor.rgb; //Ambient component
             float3 diffuse = attenuation * _LightColor0.rgb * _DiffuseColor.rgb * max(0.0, dot(normalDirection, lightDirection)); //Diffuse component
             float3 specular = attenuation * _LightColor0.rgb * _SpecularColor.rgb
                                  * pow(max(0.0, dot(reflect(-lightDirection, normalDirection), viewDirection)), _Shininess)
-                                 * sign(dot(input.normalDir, lightDirection));
+                                 * sign(dot(i.normalDir, lightDirection));
             float3 color = (ambient + diffuse) + specular; //Texture is not applient on specularReflection
             return float4(color, 1.0);
          }

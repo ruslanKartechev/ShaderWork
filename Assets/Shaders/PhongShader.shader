@@ -41,20 +41,19 @@ Shader "Rus/Phong" {
             return output;
          }
  
-         float4 frag(v2f input) : SV_Target
+         float4 frag(v2f i) : SV_Target
          {
-            float3 normalDirection = normalize(input.normalDir);
-            float3 viewDirection = normalize(_WorldSpaceCameraPos - input.worldPos.xyz);
-            float3 vert2LightSource = _WorldSpaceLightPos0.xyz - input.worldPos.xyz;
+            float3 viewDirection = normalize(_WorldSpaceCameraPos - i.worldPos.xyz);
+            float3 vert2LightSource = _WorldSpaceLightPos0.xyz - i.worldPos.xyz;
             // .w is 1 for Spot Light, 0 for GlobalLight
             float attenuation = lerp(1.0, 1.0 / length(vert2LightSource), _WorldSpaceLightPos0.w); //Optimization for spot lights. This isn't needed if you're just getting started.
-            float3 lightDirection = _WorldSpaceLightPos0.xyz - input.worldPos.xyz * _WorldSpaceLightPos0.w;
+            float3 lightDirection = _WorldSpaceLightPos0.xyz - i.worldPos.xyz * _WorldSpaceLightPos0.w;
 
             float3 ambient = float3(unity_SHAr.w, unity_SHAg.w, unity_SHAb.w) * _DiffuseColor; //Ambient component
-            float3 diffuse = attenuation * _LightColor0.rgb * _DiffuseColor.rgb * max(0.0, dot(normalDirection, lightDirection)); //Diffuse component
+            float3 diffuse = attenuation * _LightColor0.rgb * _DiffuseColor.rgb * max(0.0, dot(i.normalDir, lightDirection)); //Diffuse component
             float3 specular = attenuation * _LightColor0.rgb * _SpecularColor.rgb
-                                 * pow(max(0.0, dot(reflect(-lightDirection, normalDirection), viewDirection)), _Shininess)
-                                 * sign(dot(input.normalDir, lightDirection));
+                                 * pow(max(0.0, dot(reflect(-lightDirection, i.normalDir), viewDirection)), _Shininess)
+                                 * sign(dot(i.normalDir, lightDirection));
             float3 color = (ambient + diffuse) + specular; //Texture is not applient on specularReflection
             return float4(color, 1.0);
          }

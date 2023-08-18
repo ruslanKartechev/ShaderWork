@@ -1,11 +1,13 @@
-Shader "Rus/Vertical Dynamic Fog URP"
+Shader "Rus/Vertical Dynamic Fog Lit URP "
 {
     Properties
     {
         _MainColor("Main Color", Color) = (1, 1, 1, .5) 
         _ColorUp("Color On Intersection", Color) = (1, 1, 1, .5)
         _ColorNoiseBlend("Color blended with main color", Color) = (1, 1, 1, .5)
+        _SpecularColor("Specular Color", Color) = (1, 1, 1, .5)
         
+        _Shininess("Shininess", Float) = 1
         _FogDepth("Fog Depth", Range(0,1)) = 0.15
         _Power("Diff factor power",  Range(0,2)) = 0.38
         _NoiseTexture("Noise Texture", 2D) = "" {}
@@ -39,6 +41,7 @@ Shader "Rus/Vertical Dynamic Fog URP"
         
         Pass
         {
+            name "Global Light Pass"
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite On
             HLSLPROGRAM
@@ -50,6 +53,7 @@ Shader "Rus/Vertical Dynamic Fog URP"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+                float3 normal : NORMAL;
             };
   
             struct v2f
@@ -57,13 +61,18 @@ Shader "Rus/Vertical Dynamic Fog URP"
                 float2 uv : TEXCOORD0;
                 float4 worldPos : TEXCOORD1;
                 float4 screenPos : TEXCOORD2;
+                float3 normalDir : TEXCOORD3;
                 float4 clipPos : SV_POSITION;
             };
   
             sampler2D _CameraDepthTexture;
+            uniform float4 _LightColor0;
+            float _Shininess;
             float4 _MainColor;
             float4 _ColorUp;
             float4 _ColorNoiseBlend;
+            float4 _SpecularColor;
+            
             float4 _IntersectionColor;
             float _FogDepth;
             float _Power;
@@ -91,15 +100,16 @@ Shader "Rus/Vertical Dynamic Fog URP"
            
             v2f vert(appdata input)
             {
-                v2f o;
-                o.clipPos = UnityObjectToClipPos(input.vertex);
-                o.worldPos = mul(unity_ObjectToWorld, input.vertex);
-                o.screenPos = ComputeNonStereoScreenPos(o.clipPos);
+                v2f output;
+                output.clipPos = UnityObjectToClipPos(input.vertex);
+                output.worldPos = mul(unity_ObjectToWorld, input.vertex);
+                output.screenPos = ComputeNonStereoScreenPos(output.clipPos);
                 float2 uv = TRANSFORM_TEX(input.uv, _NoiseTexture);
                 uv.x = (input.uv + _Time * _ScrollSpeed) % 10;
-                o.uv = uv;
+                output.uv = uv;
+                output.normalDir = normalize(mul(float4(input.normal, 0.0), unity_WorldToObject).xyz);
                 UNITY_TRANSFER_FOG(o,o.vertex);
-                return o;   
+                return output;   
             }
 
             inline float Remap(float input, float from1, float to1, float from2, float to2)
@@ -110,10 +120,14 @@ Shader "Rus/Vertical Dynamic Fog URP"
             float4 frag(v2f i) : SV_TARGET
             {
                 float noise_color = tex2D(_NoiseTexture, float2(i.uv.x, i.uv.y)).x;
-                float wave_value = _WaveWeight1 * sin(_omega1 * (i.uv.x * _Dir1.x + i.uv.y * _Dir1.y ) * UNITY_PI + _Time * _NoiseWaveSpeed)
-                                 + _WaveWeight2 * sin(_omega2 * (i.uv.x * _Dir2.x + i.uv.y * _Dir2.y ) * UNITY_PI + _Time * _NoiseWaveSpeed)
-                                 + _WaveWeight3 * sin(_omega3 * (i.uv.x * _Dir3.x + i.uv.y * _Dir3.y ) * UNITY_PI + _Time * _NoiseWaveSpeed);
-
+                float wave_args_1 = _omega1 * (i.uv.x * _Dir1.x + i.uv.y * _Dir1.y ) * UNITY_PI + _Time * _NoiseWaveSpeed;
+                float wave_args_2 = _omega2 * (i.uv.x * _Dir2.x + i.uv.y * _Dir2.y ) * UNITY_PI + _Time * _NoiseWaveSpeed;
+                float wave_args_3 = _omega3 * (i.uv.x * _Dir3.x + i.uv.y * _Dir3.y ) * UNITY_PI + _Time * _NoiseWaveSpeed;
+                
+                float wave_value = _WaveWeight1 * sin(wave_args_1)
+                                 + _WaveWeight2 * sin(wave_args_2)
+                                 + _WaveWeight3 * sin(wave_args_3);
+                
                 float weights_sum = _WaveWeight1 + _WaveWeight2 + _WaveWeight3;
                 wave_value = Remap(wave_value, -(weights_sum), weights_sum, _WaveAmplitudeMin, _WaveAmplitudeMax);
                 float noise_color_factor = noise_color * wave_value;
@@ -128,9 +142,24 @@ Shader "Rus/Vertical Dynamic Fog URP"
                 
                 float3 vertical_blend_color = lerp(_ColorUp.xyz, _MainColor.xyz, alpha_lerp_t);
                 float3 blend_main_color = lerp(vertical_blend_color.rgb, _ColorNoiseBlend, main_color_blend_t);
-                float4 final_color = float4(blend_main_color, color_a);
-                // noise_color_factor = saturate(noise_color_factor);
-                // final_color = float4(noise_color_factor,noise_color_factor,noise_color_factor,1);
+                //float3 ambient = float3(unity_SHAr.w, unity_SHAg.w, unity_SHAb.w);
+                blend_main_color = blend_main_color * _LightColor0;
+
+                float total_dx = _WaveWeight1 * _Dir1.x * _omega1 * cos(wave_args_1)
+                                + _WaveWeight1 * _Dir2.x * _omega2 * cos(wave_args_2)
+                                + _WaveWeight1 * _Dir3.x * _omega3 * cos(wave_args_3);
+                float total_dz = _WaveWeight1 * _Dir1.y * _omega1 * cos(wave_args_1)
+                                + _WaveWeight1 * _Dir2.y * _omega2 * cos(wave_args_2)
+                                + _WaveWeight1 * _Dir3.y * _omega3 * cos(wave_args_3);
+                
+                float3 normalDir = normalize(float3(total_dx, 1, total_dz));
+
+                float3 viewDirection = normalize(_WorldSpaceCameraPos - i.worldPos.xyz);
+                float3 specular = 1 * _LightColor0.rgb * _SpecularColor.rgb
+                                 * pow(max(0.0, dot(reflect(-_WorldSpaceLightPos0, normalDir), viewDirection)), _Shininess)
+                                 * sign(dot(normalDir, _WorldSpaceLightPos0));
+
+                float4 final_color = float4( blend_main_color + specular, color_a);
                 return final_color;   
             }
             ENDHLSL
