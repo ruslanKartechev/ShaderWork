@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ShaderUtils
 {
     [CustomEditor(typeof(WaterShaderSettingsGenerator))]
-    public class RandomDirectionsSetterEditor : Editor
+    public class WaterShaderSettingsGeneratorEditor : Editor
     {
         private WaterShaderSettingsGenerator me;
 

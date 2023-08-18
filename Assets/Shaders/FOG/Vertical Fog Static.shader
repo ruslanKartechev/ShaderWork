@@ -1,9 +1,9 @@
-Shader "Rus/Vertical Static Fog"
+Shader "Rus/Vertical Static Fog URP"
 {
     Properties
     {
         _Color("Main Color", Color) = (1, 1, 1, .5)
-        _ColorUp("Color on top", Color) = (1, 1, 1, .5)
+        _ColorUp("Color On Intersection", Color) = (1, 1, 1, .5)
         _DepthDifferenceFactor("Depth Difference Factor", Float) = 0.15
         _Power("Diff factor power", Float) = 0.38
     }

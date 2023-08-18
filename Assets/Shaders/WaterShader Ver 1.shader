@@ -86,16 +86,16 @@ Shader "Rus/Water ver 1" {
          float _Amplitude9;
          float _Amplitude10;
          
-         float4 _Dir1;
-         float4 _Dir2;
-         float4 _Dir3;
-         float4 _Dir4;
-         float4 _Dir5;
-         float4 _Dir6;
-         float4 _Dir7;
-         float4 _Dir8;
-         float4 _Dir9;
-         float4 _Dir10;
+         float2 _Dir1;
+         float2 _Dir2;
+         float2 _Dir3;
+         float2 _Dir4;
+         float2 _Dir5;
+         float2 _Dir6;
+         float2 _Dir7;
+         float2 _Dir8;
+         float2 _Dir9;
+         float2 _Dir10;
          
          struct appdata {
             float4 vertex : POSITION;

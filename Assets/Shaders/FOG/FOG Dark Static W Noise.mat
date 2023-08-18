@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FOG Dark Blue Static
-  m_Shader: {fileID: 4800000, guid: 987312367a3a61d43a2175c9c48d1a76, type: 3}
+  m_Name: FOG Dark Static W Noise
+  m_Shader: {fileID: 4800000, guid: 9f1a9b0fcade420388a6cf6a38c5ceaa, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -56,6 +56,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NoiseTexture:
+        m_Texture: {fileID: 2800000, guid: af7f4ed77f0b2c64a9a0b5fa78c96e71, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -94,29 +98,36 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _FogDepth: 0.062
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _IntersectionThresholdMax: 0.27
+    - _MainColorDarkenMax: 0.388
     - _Metallic: 0
     - _MinAlpha: 0.36
+    - _NoiseWaveSpeed: 50
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _Power: 0.38
+    - _Power: 1.72
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _ScrollSpeed: -0.25
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _WaveAmplitudeMax: 1
+    - _WaveAmplitudeMin: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 0.2627451, b: 0.3372549, a: 1}
-    - _Color: {r: 0.49411762, g: 0.5092122, b: 1, a: 1}
-    - _ColorUp: {r: 0.3333335, g: 0, b: 1, a: 1}
+    - _Color: {r: 0.7520788, g: 0.8392157, b: 0.027450958, a: 1}
+    - _ColorNoiseBlend: {r: 0.5623978, g: 0.6226415, b: 0.055802763, a: 1}
+    - _ColorUp: {r: 0.33962262, g: 0.3335568, b: 0.15218937, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FogColor: {r: 0.7457902, g: 0.504717, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

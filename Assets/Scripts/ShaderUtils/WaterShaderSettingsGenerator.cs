@@ -92,7 +92,7 @@ namespace ShaderUtils
                 mat.SetFloat($"{_amplitudeName}{i+1}", amplitude);
                 mat.SetFloat($"{_frequencyName}{i+1}", frequency);
             }
-        }     
-        
+        }      
+         
     }
-}
+ }
