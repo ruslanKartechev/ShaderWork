@@ -5,12 +5,13 @@ Shader "Rus/Water Dynamic" {
       _DiffuseColor ("Diffuse Material Color", Color) = (1,1,1,1) 
       _SpecularColor ("Specular Material Color", Color) = (1,1,1,1) 
       _Shininess ("Shininess", Float) = 10
-//      _PhaseSpeed("Phase Speed", Float) = 1
       _BufferSize("Buffer size", int) = 1
       _YOffset("Y offset", Float) = 0
-      _IntersectionDepth("Intersection Depth", Range(0,1)) = 0.15
+      _IntersectionDepth("Intersection Depth", Range(0,2)) = 0.15
       _IntersectionPower("Depth Difference factor power",  Range(0,2)) = 0.38
       _IntersectionMaxAddColor("Max intersection added color", Range(0,1)) = 0.5
+      _NoiseTexture("Noise Texture", 2D) = "" {}
+      _NoiseScrollSpeed("_NoiseScrollSpeed", Float) = 2
    }
    
    SubShader {
@@ -27,7 +28,9 @@ Shader "Rus/Water Dynamic" {
          #pragma vertex vert  
          #pragma fragment frag 
          static const float PI = 3.14159265f;
- 
+
+         sampler2D _NoiseTexture;
+         float4 _NoiseTexture_ST;
          sampler2D _CameraDepthTexture;
          uniform float4 _LightColor0;
          uniform float4 _DiffuseColor; 
@@ -40,6 +43,7 @@ Shader "Rus/Water Dynamic" {
          float _IntersectionDepth;
          float _IntersectionPower;
          float _IntersectionMaxAddColor;
+         float _NoiseScrollSpeed;
          
          int _BufferSize;
          float _Speeds[20];
@@ -50,12 +54,14 @@ Shader "Rus/Water Dynamic" {
          struct appdata {
             float4 vertex : POSITION;
             float3 normal : NORMAL;
+            float2 uv : TEXCOORD0;
          };
          struct v2f {
             float4 clipPos : SV_POSITION;
             float4 worldPos : TEXCOORD0;
             float3 normalDir : TEXCOORD1;
             float4 screenPos : TEXCOORD2;
+            float2 uv : TEXCOORD3;
          };
  
          v2f vert(appdata input) 
@@ -71,6 +77,10 @@ Shader "Rus/Water Dynamic" {
             output.clipPos = UnityWorldToClipPos(worldPos);
             output.normalDir = normalize(mul(float4(input.normal, 0.0), unity_WorldToObject).xyz);
             output.screenPos = ComputeNonStereoScreenPos(output.clipPos);
+            float2 uv = TRANSFORM_TEX(input.uv, _NoiseTexture);
+            uv.x = (input.uv + _Time * _NoiseScrollSpeed * 0.25) % 10;
+            uv.y = (input.uv + _Time * _NoiseScrollSpeed) % 10;
+            output.uv = uv;
             return output;
          }
  
@@ -92,9 +102,7 @@ Shader "Rus/Water Dynamic" {
             // The difference  (depth - i.screenPos.w) is 1 where there is nothing, 0 where there is an opaque object
             float depth_diff = saturate(_IntersectionDepth * (depth - i.screenPos.w));
             float alpha_lerp_t = pow(depth_diff, _IntersectionPower);
-            float light_factor = lerp(_IntersectionMaxAddColor, 0, alpha_lerp_t);
-            // float lerp_noise_color = lerp(noise_color_factor, 0, depth - i.screenPos.w);
-            // float color_a = saturate(lerp(0, _MainColor.a, alpha_lerp_t) - lerp_noise_color - _AlphaSubMax);
+            float intersection_factor = lerp(_IntersectionMaxAddColor, 0, alpha_lerp_t);
             
             float attenuation = 1;
             float3 light_direction = _WorldSpaceLightPos0.xyz;
@@ -104,7 +112,8 @@ Shader "Rus/Water Dynamic" {
                                  * pow(max(0.0, dot(reflect(-light_direction, normal_dir), vir_dir)), _Shininess)
                                  * sign(dot(normal_dir, light_direction));
             float3 color = (ambient + diffuse) + specular; //Texture is not applient on specularReflection
-            color += light_factor;
+            float noise_factor = tex2D(_NoiseTexture, i.uv).x;;
+            color += intersection_factor * noise_factor * noise_factor;
             return float4(saturate(color), 1.0);
          }
          ENDHLSL
