@@ -17,15 +17,20 @@ namespace ShaderUtils
         [SerializeField] private float _maxAmplitude = 0.5f;
         [SerializeField] private float _minAmplitude = 0.1f;
         [Space(4)]
+        [SerializeField] private float _speedMin = 10;
+        [SerializeField] private float _speedMax = 100;
+        [Space(4)]
         [SerializeField] private string _amplitudeBufferName = "_Amplitudes";
         [SerializeField] private string _frequencyBufferName = "_Omegas";
         [SerializeField] private string _directionsBufferName = "_Directions";
+        [SerializeField] private string _speedsBufferName = "_Speeds";
         [Space(10)]
         [SerializeField] private List<Vector4> _directions;
         [SerializeField] private List<float> _amplitudes;
         [SerializeField] private List<float> _frequencies;
+        [SerializeField] private List<float> _speeds;
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         private void OnValidate()
         {
             AssignBuffersWithCheck();   
@@ -48,6 +53,7 @@ namespace ShaderUtils
                 mat.SetFloatArray(_frequencyBufferName, _frequencies);
             if(_directions.Count > 0)
                 mat.SetVectorArray(_directionsBufferName, _directions);
+            mat.SetFloatArray(_speedsBufferName, _speeds);
         }
 
         public void AssignBuffers()
@@ -56,6 +62,7 @@ namespace ShaderUtils
             mat.SetFloatArray(_amplitudeBufferName, _amplitudes);
             mat.SetFloatArray(_frequencyBufferName, _frequencies);
             mat.SetVectorArray(_directionsBufferName, _directions);
+            mat.SetFloatArray(_speedsBufferName, _speeds);
         }
         
         public void SetDirections()
@@ -63,7 +70,7 @@ namespace ShaderUtils
             if (_renderer == null)
                 _renderer = GetComponent<Renderer>();
             var mat = _renderer.sharedMaterial;
-            var count = (int)mat.GetFloat(BufferSizeVarName);
+            var count = mat.GetInt(BufferSizeVarName);
             _directions = new List<Vector4>(count);
             for (var i = 0; i < count; i++)
             {
@@ -81,7 +88,7 @@ namespace ShaderUtils
             var mat = _renderer.sharedMaterial;
             _frequencies.Clear();
             _frequencies = new List<float>();
-            var count = mat.GetFloat(BufferSizeVarName);
+            var count = mat.GetInt(BufferSizeVarName);
             for (var i = 0; i < count; i++)
             {
                 var it = i;
@@ -106,7 +113,7 @@ namespace ShaderUtils
             if (_renderer == null)
                 _renderer = GetComponent<Renderer>();
             var mat = _renderer.sharedMaterial;
-            var count = (int)mat.GetFloat(BufferSizeVarName);
+            var count = mat.GetInt(BufferSizeVarName);
             var amplitude = _maxAmplitude;
             _amplitudes.Clear();
             _amplitudes = new List<float>(count);
@@ -120,14 +127,20 @@ namespace ShaderUtils
         }
         
         
-        private float Factorial(int number)
+        public void SetSpeeds()
         {
-            if (number <= 0)
-                return 1;
-            var fact = number;
-            for (var i = number - 1; i >= 1; i--)
-                fact = fact * i;
-            return fact;
+            if (_renderer == null)
+                _renderer = GetComponent<Renderer>();
+            var mat = _renderer.sharedMaterial;
+            var count = mat.GetInt(BufferSizeVarName);
+            _speeds.Clear();
+            _speeds = new List<float>(count);
+            for (var i = 0; i < count; i++)
+            {
+                var t = (float)(i) / (count-1);
+                _speeds.Add(Mathf.Lerp(_speedMin, _speedMax, t));
+            }
+            mat.SetFloatArray(_speedsBufferName, _speeds);
         }
     }
  }

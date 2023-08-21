@@ -113,7 +113,7 @@ Material:
     - _Amplitude8: 0.10485761
     - _Amplitude9: 0.08388609
     - _Blend: 0
-    - _BufferSize: 18
+    - _BufferSize: 36
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -134,7 +134,7 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _PhaseSpeed: 50
+    - _PhaseSpeed: 20
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Shininess: 31.09
@@ -145,6 +145,7 @@ Material:
     - _Surface: 0
     - _TimeSpeed: 95
     - _WorkflowMode: 1
+    - _YOffset: -5.77
     - _ZWrite: 1
     - _omega1: 0.12
     - _omega10: 0.6191739
@@ -170,7 +171,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DiffuseColor: {r: 0.14346743, g: 0.69038963, b: 0.9811321, a: 1}
+    - _DiffuseColor: {r: 0.058823522, g: 0.5302688, b: 0.83137256, a: 1}
     - _Dir1: {r: 0.8641033, g: 0.50331444, b: 0, a: 0}
     - _Dir10: {r: -0.8424211, g: -0.5388197, b: 0, a: 0}
     - _Dir11: {r: 0.647407, g: 0.76214445, b: 0, a: 0}
