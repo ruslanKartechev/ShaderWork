@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3762371573996306406
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -7,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Water exp sine waves
-  m_Shader: {fileID: 4800000, guid: ac773f137d2588640a70713add06cfab, type: 3}
+  m_Name: Water Dynamic
+  m_Shader: {fileID: 4800000, guid: e22675da10d006745b2f7186f075f504, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -80,16 +93,27 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _Amplitude1: 0.5
-    - _Amplitude10: 0.01
-    - _Amplitude2: 0.2
-    - _Amplitude3: 0.1
-    - _Amplitude4: 0.07
-    - _Amplitude5: 0.06
-    - _Amplitude6: 0.05
-    - _Amplitude7: 0.04
-    - _Amplitude8: 0.03
-    - _Amplitude9: 0.02
+    - _Amplitude10: 0.06710887
+    - _Amplitude11: 0.0536871
+    - _Amplitude12: 0.04294968
+    - _Amplitude13: 0.034359746
+    - _Amplitude14: 0.027487796
+    - _Amplitude15: 0.021990238
+    - _Amplitude16: 0
+    - _Amplitude17: 0
+    - _Amplitude18: 0
+    - _Amplitude19: 0
+    - _Amplitude2: 0.4
+    - _Amplitude20: 0
+    - _Amplitude3: 0.32000002
+    - _Amplitude4: 0.256
+    - _Amplitude5: 0.20480001
+    - _Amplitude6: 0.16384001
+    - _Amplitude7: 0.13107201
+    - _Amplitude8: 0.10485761
+    - _Amplitude9: 0.08388609
     - _Blend: 0
+    - _BufferSize: 18
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -110,6 +134,7 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _PhaseSpeed: 50
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Shininess: 31.09
@@ -121,45 +146,52 @@ Material:
     - _TimeSpeed: 95
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _omega1: 0.1
-    - _omega10: 1
-    - _omega2: 0.2
-    - _omega3: 0.35
-    - _omega4: 0.45
-    - _omega5: 0.55
-    - _omega6: 0.7
-    - _omega7: 0.75
-    - _omega8: 0.85
-    - _omega9: 0.95
+    - _omega1: 0.12
+    - _omega10: 0.6191739
+    - _omega11: 0.7430087
+    - _omega12: 0.89161044
+    - _omega13: 1.0699325
+    - _omega14: 1.2839191
+    - _omega15: 1.5407029
+    - _omega16: 1.8488437
+    - _omega17: 2.2186124
+    - _omega18: 2.6623352
+    - _omega19: 3.1948023
+    - _omega2: 0.14400001
+    - _omega20: 3.833763
+    - _omega3: 0.1728
+    - _omega4: 0.20736001
+    - _omega5: 0.24883203
+    - _omega6: 0.29859847
+    - _omega7: 0.35831818
+    - _omega8: 0.42998183
+    - _omega9: 0.5159782
     - _phase: 50
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DiffuseColor: {r: 0.14346743, g: 0.69038963, b: 0.9811321, a: 1}
-    - _Dir1: {r: 0.9254885, g: 0.37877578, b: 0, a: 0}
-    - _Dir10: {r: -0.46413144, g: 0.8857664, b: 0, a: 0}
-    - _Dir2: {r: 0.34212938, g: -0.9396528, b: 0, a: 0}
-    - _Dir3: {r: 0.95226026, g: 0.30528727, b: 0, a: 0}
-    - _Dir4: {r: 0.74583614, g: 0.66612947, b: 0, a: 0}
-    - _Dir5: {r: -0.9423911, g: 0.33451304, b: 0, a: 0}
-    - _Dir6: {r: 0.82627887, g: 0.5632612, b: 0, a: 0}
-    - _Dir7: {r: 0.6934915, g: -0.72046477, b: 0, a: 0}
-    - _Dir8: {r: 0.43672988, g: 0.89959276, b: 0, a: 0}
-    - _Dir9: {r: 0.33186522, g: 0.94332683, b: 0, a: 0}
+    - _Dir1: {r: 0.8641033, g: 0.50331444, b: 0, a: 0}
+    - _Dir10: {r: -0.8424211, g: -0.5388197, b: 0, a: 0}
+    - _Dir11: {r: 0.647407, g: 0.76214445, b: 0, a: 0}
+    - _Dir12: {r: -0.100032575, g: -0.99498415, b: 0, a: 0}
+    - _Dir13: {r: 0.8391744, g: -0.5438625, b: 0, a: 0}
+    - _Dir14: {r: -0.8687282, g: 0.49528897, b: 0, a: 0}
+    - _Dir15: {r: -0.6163763, g: -0.78745174, b: 0, a: 0}
+    - _Dir16: {r: -0.8075352, g: -0.5898194, b: 0, a: 0}
+    - _Dir17: {r: -0.99999493, g: 0.0031670597, b: 0, a: 0}
+    - _Dir18: {r: -0.12082682, g: 0.9926736, b: 0, a: 0}
+    - _Dir19: {r: -0.021337785, g: -0.9997723, b: 0, a: 0}
+    - _Dir2: {r: 0.9456451, g: 0.3252005, b: 0, a: 0}
+    - _Dir20: {r: -0.29606426, g: -0.955168, b: 0, a: 0}
+    - _Dir3: {r: -0.29690737, g: 0.9549063, b: 0, a: 0}
+    - _Dir4: {r: -0.31063882, g: -0.950528, b: 0, a: 0}
+    - _Dir5: {r: 0.99328536, g: -0.115689814, b: 0, a: 0}
+    - _Dir6: {r: -0.5097059, g: -0.86034864, b: 0, a: 0}
+    - _Dir7: {r: 0.07559188, g: -0.9971388, b: 0, a: 0}
+    - _Dir8: {r: 0.64416444, g: 0.764887, b: 0, a: 0}
+    - _Dir9: {r: -0.5247016, g: 0.85128623, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &7156309896748352329
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 5

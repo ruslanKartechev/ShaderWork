@@ -20,15 +20,14 @@ namespace ShaderUtils
             var height = 28;
             var width = 140;
             if(GUILayout.Button("Generate Directions", GUILayout.Width(width), GUILayout.Height(height)))
-                me.Generate();
-            if(GUILayout.Button("Assign Directions", GUILayout.Width(width), GUILayout.Height(height)))
-                me.Assign();
-            if(GUILayout.Button("Ws And As Exp", GUILayout.Width(width), GUILayout.Height(height)))
-                me.GenerateFrequenciesAndAmplitudes();
-            if(GUILayout.Button("Ws And As Polyn", GUILayout.Width(width), GUILayout.Height(height)))
-                me.GenerateFrequenciesAndAmplitudesPolynomial();
-            if(GUILayout.Button("Ws And As Linear", GUILayout.Width(width), GUILayout.Height(height)))
-                me.GenerateFrequenciesAndAmplitudesLinear();
+                me.SetDirections();
+            if(GUILayout.Button("Generate Frequencies", GUILayout.Width(width), GUILayout.Height(height)))
+                me.GenerateFrequencies();
+            if(GUILayout.Button("Generate Amplitudes", GUILayout.Width(width), GUILayout.Height(height)))
+                me.GenerateAmplitudes();
+            GUILayout.Space(10);
+            if(GUILayout.Button("Assign buffers", GUILayout.Width(width), GUILayout.Height(height)))
+                me.AssignBuffersWithCheck();
         }
     }
 }

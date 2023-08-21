@@ -58,7 +58,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _NoiseTexture:
         m_Texture: {fileID: 2800000, guid: f63d8bfd334f36445bee8ea778d6fc8f, type: 3}
-        m_Scale: {x: 0.6, y: 0.6}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
@@ -87,7 +87,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
-    - _AlphaSubMax: 0.416
+    - _AlphaSubMax: 0.394
     - _Amplitude1: 0.63646185
     - _Amplitude2: 0.6375431
     - _Amplitude3: 0.890727
@@ -95,7 +95,7 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _ColorNoiseBlendFactor: 0.739
+    - _ColorNoiseBlendFactor: 0.55
     - _Cull: 2
     - _Cutoff: 0.5
     - _DepthDifferenceFactor: 0.16
@@ -111,7 +111,7 @@ Material:
     - _MainColorDarkenMax: 0.616
     - _Metallic: 0
     - _MinAlpha: 0.36
-    - _NoiseWaveSpeed: 80
+    - _NoiseWaveSpeed: 20
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _Power: 0.94
@@ -119,6 +119,7 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _ScrollSpeed: 0
+    - _Shininess: 3.8
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -139,13 +140,14 @@ Material:
     - _Color: {r: 0.685062, g: 0.18609825, b: 0.9622642, a: 1}
     - _ColorNoiseBlend: {r: 0.026488181, g: 0, b: 0.3764706, a: 1}
     - _ColorUp: {r: 0.33333334, g: 0, b: 1, a: 1}
-    - _Dir1: {r: 0.99999875, g: -0.001582447, b: 0, a: 0}
-    - _Dir2: {r: -0.20120887, g: -0.9795484, b: 0, a: 0}
-    - _Dir3: {r: 0.9343004, g: 0.3564866, b: 0, a: 0}
+    - _Dir1: {r: -0.68906826, g: -0.7246964, b: 0, a: 0}
+    - _Dir2: {r: -0.8580324, g: -0.51359546, b: 0, a: 0}
+    - _Dir3: {r: -0.9748306, g: 0.22294675, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FogColor: {r: 0.7457902, g: 0.504717, b: 1, a: 1}
     - _MainColor: {r: 0.2784314, g: 0.6745098, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _SpecularColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &7640999667396075275
 MonoBehaviour:
