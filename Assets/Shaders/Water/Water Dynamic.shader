@@ -62,12 +62,14 @@ Shader "Rus/Water Dynamic" {
             float3 normalDir : TEXCOORD1;
             float4 screenPos : TEXCOORD2;
             float2 uv : TEXCOORD3;
+            float4 originalWorld : TEXCOORD4;
          };
  
          v2f vert(appdata input) 
          {
             v2f output;
             float4 worldPos = mul(unity_ObjectToWorld, input.vertex);
+            output.originalWorld = worldPos;
             for(int iter = 0; iter < _BufferSize; iter++)
             {
                worldPos.y += _Amplitudes[iter] * exp(sin((-_Directions[iter].x * worldPos.x + -_Directions[iter].y * worldPos.z) * FREQ(_Omegas[iter]) + _Time * _Speeds[iter]));
@@ -86,15 +88,15 @@ Shader "Rus/Water Dynamic" {
  
          float4 frag(v2f i) : SV_Target
          {
-            float3 worldPos = i.worldPos;
+            float3 worldPos = i.originalWorld;
             float total_dx = 0;
             float total_dz = 0;
             for(int iter = 0; iter < _BufferSize; iter++)
             {
                   float wave_arg = -(_Directions[iter].x * worldPos.x + _Directions[iter].y * worldPos.z) * FREQ(_Omegas[iter]) + _Time * _Speeds[iter];
-                  float wave_1_dir = _Amplitudes[iter] * exp(sin(wave_arg)) * cos(wave_arg) * FREQ(_Omegas[iter]);
-                  total_dx += -_Directions[iter].x * wave_1_dir;
-                  total_dz += -_Directions[iter].y * wave_1_dir;
+                  float dirivative = _Amplitudes[iter] * exp(sin(wave_arg)) * cos(wave_arg);
+                  total_dx += -_Directions[iter].x * dirivative;
+                  total_dz += -_Directions[iter].y * dirivative;
             }
             float3 normal_dir = normalize(float3(-total_dx, 1, -total_dz));
             float3 vir_dir = normalize(_WorldSpaceCameraPos - i.worldPos.xyz);

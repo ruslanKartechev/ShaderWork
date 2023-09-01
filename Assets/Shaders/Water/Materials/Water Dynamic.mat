@@ -65,6 +65,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NoiseTexture:
+        m_Texture: {fileID: 2800000, guid: f63d8bfd334f36445bee8ea778d6fc8f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -113,7 +117,7 @@ Material:
     - _Amplitude8: 0.10485761
     - _Amplitude9: 0.08388609
     - _Blend: 0
-    - _BufferSize: 36
+    - _BufferSize: 22
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -125,16 +129,23 @@ Material:
     - _DirZ: 0.5
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _FogDepth: 0.15
     - _Freqw1: 3.34
     - _Freqw2: 3.39
     - _Freqw3: 3
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Intersection: 0.15
+    - _IntersectionDepth: 1.64
+    - _IntersectionMaxAddColor: 1
+    - _IntersectionPower: 1.94
     - _Metallic: 0
+    - _NoiseScrollSpeed: 5
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _PhaseSpeed: 20
+    - _PhaseSpeed: 40
+    - _Power: 0.48
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Shininess: 31.09
@@ -145,7 +156,7 @@ Material:
     - _Surface: 0
     - _TimeSpeed: 95
     - _WorkflowMode: 1
-    - _YOffset: -5.77
+    - _YOffset: -0.66
     - _ZWrite: 1
     - _omega1: 0.12
     - _omega10: 0.6191739
@@ -171,7 +182,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DiffuseColor: {r: 0.058823522, g: 0.5302688, b: 0.83137256, a: 1}
+    - _DiffuseColor: {r: 0.052643314, g: 0.5435147, b: 0.8584906, a: 1}
     - _Dir1: {r: 0.8641033, g: 0.50331444, b: 0, a: 0}
     - _Dir10: {r: -0.8424211, g: -0.5388197, b: 0, a: 0}
     - _Dir11: {r: 0.647407, g: 0.76214445, b: 0, a: 0}
